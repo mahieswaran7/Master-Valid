@@ -1,0 +1,45 @@
+<div *ngIf="loading" class="text-center">Loading...</div>
+<div *ngIf="error" class="alert alert-danger text-center">{{ error }}</div>
+
+<div *ngIf="!loading && !error" class="container">
+  <!-- Container for the search bar -->
+  <div class="search-bar-container">
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search by user email"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange($event)"
+      />
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Room Number</th>
+          <th>User Email</th>
+          <th>Booking Date</th>
+          <th>Is Confirmed</th>
+          <th>Room Type</th>
+          <th>Room Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of filteredBookings">
+          <td>{{ booking.roomNumber }}</td>
+          <td>{{ booking.userEmail }}</td>
+          <td>{{ booking.bookingDate | date:'mediumDate' }}</td>
+          <td>{{ booking.isConfirmed ? 'Yes' : 'No' }}</td>
+          <td>{{ booking.roomType }}</td>
+          <td>{{ booking.roomPrice | currency }}</td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteBooking(booking.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
